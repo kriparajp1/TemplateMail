@@ -9,7 +9,7 @@ const oneday = 1000 * 60 * 60 * 24;
 
 
 app.use(cors({
-    origin: 'https://templatemail.vercel.app/', // Replace with your React app's origin
+    origin: 'http://localhost:3000', // Replace with your React app's origin
     credentials: true // Allow cookies to be sent
 }));
 app.use(express.json())
@@ -20,7 +20,7 @@ app.use(
       secret: "secret-Key",
       resave: false,
       cookie: { maxAge: oneday,
-        secure:true
+        secure:false
        },
       saveUninitialized: true,
     })
