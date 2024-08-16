@@ -15,34 +15,28 @@ function replacePlaceholders(template, replacements) {
 const login = (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("Login Request Body:", req.body);
+        console.log(req.body);
 
-        // Store credentials in session
         req.session.userMail = email;
         req.session.userPassword = password;
 
-        console.log("Session after login:", req.session);
-
         res.status(200).json({ success: true, message: "Login successful" });
     } catch (error) {
-        console.log("Login Error:", error);
         res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 };
 
 const postMail = (req, res) => {
-    // Retrieve credentials from session
-    const userMail = "kripp.me@outlook.com";
-    const userPassword = "kichu@347";
-    
-    console.log("Session in postMail:", req.session);
+    console.log('Session data:', req.session);
+    const { email, subject, content, heading } = req.body;
+
+    const userMail = req.session.userMail;
+    const userPassword = req.session.userPassword;
+    console.log(`User email: ${userMail}, User password: ${userPassword}`);
 
     if (!userMail || !userPassword) {
-        return res.status(400).json({ success: false, message: "User credentials missing" });
+        return res.status(401).json({ success: false, message: "Session expired or invalid" });
     }
-
-    const { email, subject, content, heading } = req.body;
-    console.log("Sending Email To:", email);
 
     sendMail(userMail, userPassword, email, subject, content, heading);
 
@@ -50,8 +44,7 @@ const postMail = (req, res) => {
 };
 
 const sendMail = (userMail, userPassword, recipientEmail, subject, content, heading) => {
-    console.log("Sending Mail With User:", userMail, userPassword);
-
+    console.log(`${userMail}      and ${userPassword}`)
     const transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
         port: 587,
@@ -82,7 +75,7 @@ const sendMail = (userMail, userPassword, recipientEmail, subject, content, head
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log("Error sending email:", error);
+            console.log(error);
         } else {
             console.log("Email sent: " + info.response);
         }
@@ -93,5 +86,3 @@ module.exports = {
     login,
     postMail
 };
-
-// Server setup code remains the same
