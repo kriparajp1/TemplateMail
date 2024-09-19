@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1d1d1d;
+  color: #fff;
+}
+
+.app-header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.app-header h1 {
+  font-size: 2rem;
+  color: #ff6501;
+}
+
+.app-header .highlight {
+  color: #9144ff;
+}
+
+.app-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
